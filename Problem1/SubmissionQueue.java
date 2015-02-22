@@ -4,7 +4,9 @@
 * A FIFO Queue for handling submissions.
 */
 
+
 import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class SubmissionQueue
 {
@@ -13,7 +15,13 @@ public class SubmissionQueue
 		return internalQueue.add(s);
 	}
 	public boolean process(){
-		Submission target = internalQueue.take();
+		Submission target;
+		try{target = internalQueue.take();}
+		catch(InterruptedException e){
+			//oh no
+			System.err.println(e);
+			return false;
+		};
 		//do some stuff
 		if(target == null) return false;
 		return true;
