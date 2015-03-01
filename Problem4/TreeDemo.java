@@ -8,140 +8,40 @@ interface Terrain
 {
 	void draw(Graphics graphics, int x, int y);
 }
-class Tree implements Terrain
-{
-	private int x;
-	private int y;
-	private Image image;
-	public Tree(String type)
-	{
-		System.out.println("Creating a new instance of a tree of type " + type);
-		String filename = "tree" + type + ".png";
-		try
-		{
-			image = ImageIO.read(new File(filename));
-		} catch(Exception exc) { }
-	}
-	public void setX(int x) { this.x = x; }
-	public void setY(int y) { this.y = y; }
-	public int getX() { return x; }
-	public int getY() { return y; }
-	@Override
-	public void draw(Graphics graphics, int x, int y)
-	{
-		graphics.drawImage(image, x, y, null);
-	}
-    public static Tree getInstance(){
-        return null;
-    }
-}
-class AppleTree extends Tree
-{
-    private static Tree tree;
+class Tree implements Terrain {
+    private Image image;
 
-    private AppleTree(){
-        super("Apple");
-    }
-
-    public static Tree getInstance(){
-        if (tree == null){
-            tree = new AppleTree();
+    public Tree(String type) {
+        System.out.println("Creating a new instance of a tree of type " + type);
+        String filename = "tree" + type + ".png";
+        try {
+            image = ImageIO.read(new File(filename));
+        } catch (Exception exc) {
+            System.out.println("Could not read filename " + filename);
         }
-        return tree;
-    }
-}
-class LemonTree extends Tree
-{
-    private static Tree tree;
-
-    private LemonTree(){
-        super("Lemon");
     }
 
-    public static Tree getInstance(){
-        if (tree == null){
-            tree = new LemonTree();
-        }
-        return tree;
-    }
-}
-class BlobTree extends Tree
-{
-    private static Tree tree;
-
-    private BlobTree(){
-        super("Blob");
-    }
-
-    public static Tree getInstance(){
-        if (tree == null){
-            tree = new BlobTree();
-        }
-        return tree;
-    }
-}
-class ElmTree extends Tree
-{
-    private static Tree tree;
-
-    private ElmTree(){
-        super("Elm");
-    }
-
-    public static Tree getInstance(){
-        if (tree == null){
-            tree = new ElmTree();
-        }
-        return tree;
-    }
-}
-class MapleTree extends Tree
-{
-    private static Tree tree;
-
-    private MapleTree(){
-        super("Maple");
-    }
-
-    public static Tree getInstance(){
-        if (tree == null){
-            tree = new MapleTree();
-        }
-        return tree;
+    @Override
+    public void draw(Graphics graphics, int x, int y) {
+        graphics.drawImage(image, x, y, null);
     }
 }
 class TreeFactory
 {
-	private static final ArrayList<Tree> mylist = new ArrayList<Tree>();
+	private static final Map<String, Tree> treeFlyweights = new HashMap<String,Tree>();
 	public static Terrain getTree(String type)
-	{
-//		Original Code:
-//      Tree tree = new Tree(type);
-//		mylist.add(tree);
-//		return tree;
-
+    {
         //Implement Factory Design Pattern
-        System.out.println("Enter Factory Class 'getTree()' method");
-        Tree tree = null;
-        if (type.equals("Apple")) {
-            tree = AppleTree.getInstance();
+        Tree tree = treeFlyweights.get(type);
+
+        if (tree == null){
+            tree = new Tree(type);
+            treeFlyweights.put(type, tree);
         }
-        else if (type.equals("Lemon")) {
-            tree = LemonTree.getInstance();
+        else{
+            System.out.println(type + " Tree already cached in Hash. Returning cached tree.");
         }
-        else if (type.equals("Blob")) {
-            tree = BlobTree.getInstance();
-        }
-        else if (type.equals("Elm")) {
-            tree = ElmTree.getInstance();
-        }
-        else if (type.equals("Maple")) {
-            tree = MapleTree.getInstance();
-        }
-        // Ability to add more tree types here!
-        else {
-            System.out.println("Type is not an available tree type");
-        }
+
         return tree;
    }
 }
@@ -152,7 +52,7 @@ class TreeDemo extends JPanel
 {
 	private static final int width = 800;
 	private static final int height = 700;
-	private static final int numTrees = 5000;
+	private static final int numTrees = 50;
 	private static final String type[] = { "Apple", "Lemon", "Blob", "Elm", "Maple" };
 
 	public void paint(Graphics graphics)
