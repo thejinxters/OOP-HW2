@@ -69,11 +69,11 @@ class Analysis
 		Logging logfile = LoggingFactory.createLogging(type);
 		logfile.log("Starting application...");
 
-		System.out.println("... read in data file to analyze ...");
+		logfile.log("... read in data file to analyze ...");
 		// code...
-		System.out.println("... Clustering data for analysis ...");
+		logfile.log("... Clustering data for analysis ...");
 		// code...
-		System.out.println("... Printing analysis results ...");
+		logfile.log("... Printing analysis results ...");
 		// code...
 	}
 }
