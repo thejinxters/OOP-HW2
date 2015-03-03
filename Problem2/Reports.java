@@ -58,7 +58,7 @@ class NumTestsTimeoutReport implements iReporter
 	public void notifyTestResult(){
 		boolean lt = submission.wasTimeoutError();
 		boolean lp = submission.didTestPass();
-		if (lp){
+		if (!lp){
 			numFailed ++;
 			if (lt){
 				timedOut ++;
