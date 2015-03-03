@@ -5,16 +5,16 @@
 */
 
 
-import java.util.Queue;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class SubmissionQueue
 {
-	private PriorityBlockingQueue<Submission> internalQueue;
+	private LinkedList<Submission> internalQueue;
     private static SubmissionQueue queue;
 
     private SubmissionQueue(){
-        internalQueue = new PriorityBlockingQueue<Submission>();
+        internalQueue = new LinkedList<Submission>();
 
     }
 
@@ -25,22 +25,29 @@ public class SubmissionQueue
         return queue;
     }
 
-	public boolean add(Submission s){
-		return internalQueue.add(s);
+	public synchronized boolean add(Submission submission){
+		System.out.println("Adding Submission with id " + submission.getId());
+        return internalQueue.add(submission);
 	}
 
     public boolean process() {
+        Submission target = getNextSubmission();
+        if (target != null){
+            System.out.println("Processing Submission with id " + target.getId());
+            return true;
+        }
+        return false;
+    }
+
+    private synchronized Submission getNextSubmission(){
         Submission target;
         try {
-            target = internalQueue.take();
-        } catch (InterruptedException e) {
-            //oh no
-            System.err.println(e);
-            return false;
+            target = internalQueue.remove();
+            return target;
         }
-
-        //do some stuff to target
-
-        return (target != null);
+        catch(NoSuchElementException e){
+            System.err.println("Caught NoSuchElementException: " + e.getMessage());
+            return null;
+        }
     }
 }

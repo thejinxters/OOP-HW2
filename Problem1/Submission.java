@@ -8,13 +8,17 @@ import java.util.Random;
 
 public class Submission
 {
-  private static Random rand = new Random();
-  private int id;
+    private static Random rand = new Random();
+    private int id;
 
-  public Submission()
-  {
+    public Submission()
+    {
     // Give this submission a unique(ish) id
-    id = rand.nextInt(10000000);
-  }
+        id = rand.nextInt(10000000);
+    }
+
+    public int getId(){
+        return id;
+    }
 }
 
