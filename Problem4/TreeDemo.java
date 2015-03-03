@@ -8,38 +8,41 @@ interface Terrain
 {
 	void draw(Graphics graphics, int x, int y);
 }
-class Tree implements Terrain
-{
-	private int x;
-	private int y;
-	private Image image;
-	public Tree(String type)
-	{
-		System.out.println("Creating a new instance of a tree of type " + type);
-		String filename = "tree" + type + ".png";
-		try
-		{
-			image = ImageIO.read(new File(filename));
-		} catch(Exception exc) { }
-	}
-	public void setX(int x) { this.x = x; }
-	public void setY(int y) { this.y = y; }
-	public int getX() { return x; }
-	public int getY() { return y; }
-	@Override
-	public void draw(Graphics graphics, int x, int y)
-	{
-		graphics.drawImage(image, x, y, null);
-	}
+class Tree implements Terrain {
+    private Image image;
+
+    public Tree(String type) {
+        System.out.println("Creating a new instance of a tree of type " + type);
+        String filename = "tree" + type + ".png";
+        try {
+            image = ImageIO.read(new File(filename));
+        } catch (Exception exc) {
+            System.out.println("Could not read filename " + filename);
+        }
+    }
+
+    @Override
+    public void draw(Graphics graphics, int x, int y) {
+        graphics.drawImage(image, x, y, null);
+    }
 }
 class TreeFactory
 {
-	private static final ArrayList<Tree> mylist = new ArrayList<Tree>();
+	private static final Map<String, Tree> treeFlyweights = new HashMap<String,Tree>();
 	public static Terrain getTree(String type)
-	{
-		Tree tree = new Tree(type);
-		mylist.add(tree);
-		return tree;
+    {
+        //Implement Factory Design Pattern
+        Tree tree = treeFlyweights.get(type);
+
+        if (tree == null){
+            tree = new Tree(type);
+            treeFlyweights.put(type, tree);
+        }
+        else{
+            System.out.println(type + " Tree already cached in Hash. Returning cached tree.");
+        }
+
+        return tree;
    }
 }
 /**
