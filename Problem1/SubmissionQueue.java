@@ -6,11 +6,11 @@
 
 
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class SubmissionQueue
 {
-	private LinkedBlockingQueue<Submission> internalQueue;
+	private PriorityBlockingQueue<Submission> internalQueue;
 	public boolean add(Submission s){
 		return internalQueue.add(s);
 	}
@@ -27,6 +27,6 @@ public class SubmissionQueue
 		return true;
 	}
 	public SubmissionQueue(){
-		internalQueue = new LinkedBlockingQueue<Submission>();
+		internalQueue = new PriorityBlockingQueue<Submission>();
 	}
 }
