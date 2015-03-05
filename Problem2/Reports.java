@@ -17,10 +17,12 @@ class NumTestsPassedReport implements iReporter
 		passed = 0;
 		totalRun = 0;
 		this.submission = submission;
+        this.submission.addReport(this);
 	}
 
 	public void report(){
-		System.out.println("**********************************");
+        System.out.println("DEBUG: method NumTestPassingReport report method called");
+        System.out.println("**********************************");
 		System.out.println("Submission Test Passed Report: ");
 		System.out.println("*** Tests Passed: " + passed);
 		System.out.println("*** Total Run: " + totalRun);
@@ -29,11 +31,13 @@ class NumTestsPassedReport implements iReporter
 		System.out.println("**********************************");
 	}
 
+    // Observer Update
 	public void notifyTestResult(){
 		boolean lp = submission.didTestPass();
 		if (lp) passed ++;
 		totalRun ++;
-	}	
+
+    }
 }
 
 class NumTestsTimeoutReport implements iReporter
@@ -46,8 +50,10 @@ class NumTestsTimeoutReport implements iReporter
 		timedOut = 0;
 		numFailed = 0;
 		this.submission = submission;
+        this.submission.addReport(this);
 	}
 	public void report(){
+        System.out.println("DEBUG: method NumTestTimeoutReport report method called");
 		System.out.println("**********************************");
 		System.out.println("Test Timeout Report");
 		System.out.println("*** Number of Timeouts: " + timedOut);
@@ -55,6 +61,7 @@ class NumTestsTimeoutReport implements iReporter
 		System.out.println("**********************************");
 	}
 
+    // Observer Update
 	public void notifyTestResult(){
 		boolean lt = submission.wasTimeoutError();
 		boolean lp = submission.didTestPass();
