@@ -5,28 +5,49 @@
 */
 
 
-import java.util.Queue;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class SubmissionQueue
 {
-	private PriorityBlockingQueue<Submission> internalQueue;
-	public boolean add(Submission s){
-		return internalQueue.add(s);
+	private LinkedList<Submission> internalQueue;
+    private static SubmissionQueue queue;
+
+    private SubmissionQueue(){
+        internalQueue = new LinkedList<Submission>();
+
+    }
+
+    public static SubmissionQueue getInstance(){
+        if (queue == null){
+            queue = new SubmissionQueue();
+        }
+        return queue;
+    }
+
+	public synchronized boolean add(Submission submission){
+		System.out.println("Adding Submission with id " + submission.getId());
+        return internalQueue.add(submission);
 	}
-	public boolean process(){
-		Submission target;
-		try{target = internalQueue.take();}
-		catch(InterruptedException e){
-			//oh no
-			System.err.println(e);
-			return false;
-		};
-		//do some stuff
-		if(target == null) return false;
-		return true;
-	}
-	public SubmissionQueue(){
-		internalQueue = new PriorityBlockingQueue<Submission>();
-	}
+
+    public boolean process() {
+        Submission target = getNextSubmission();
+        if (target != null){
+            System.out.println("Processing Submission with id " + target.getId());
+            return true;
+        }
+        return false;
+    }
+
+    private synchronized Submission getNextSubmission(){
+        Submission target;
+        try {
+            target = internalQueue.remove();
+            return target;
+        }
+        catch(NoSuchElementException e){
+            System.err.println("Caught NoSuchElementException: " + e.getMessage());
+            return null;
+        }
+    }
 }
