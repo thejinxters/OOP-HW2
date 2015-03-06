@@ -28,21 +28,21 @@ class Tree implements Terrain {
 }
 class TreeFactory
 {
-	private static final Map<String, Tree> treeFlyweights = new HashMap<String,Tree>();
+	private static final Map<String, Terrain> treeFlyweights = new HashMap<String,Terrain>();
 	public static Terrain getTree(String type)
     {
         //Implement Factory Design Pattern
-        Tree tree = treeFlyweights.get(type);
+        Terrain terrain = treeFlyweights.get(type);
 
-        if (tree == null){
-            tree = new Tree(type);
-            treeFlyweights.put(type, tree);
+        if (terrain == null){
+            terrain = new Tree(type);
+            treeFlyweights.put(type, terrain);
         }
         else{
             System.out.println(type + " Tree already cached in Hash. Returning cached tree.");
         }
 
-        return tree;
+        return terrain;
    }
 }
 /**

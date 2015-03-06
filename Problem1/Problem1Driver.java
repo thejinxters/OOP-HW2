@@ -7,6 +7,8 @@ public class Problem1Driver {
         Submission submission2 = new Submission();
         Submission submission3 = new Submission();
         Submission submission4 = new Submission();
+        Submission submission5 = new Submission();
+        Submission submission6 = new Submission();
 
         SubmissionQueue queue = SubmissionQueue.getInstance();
 
@@ -17,8 +19,16 @@ public class Problem1Driver {
 
         queue.process();
         queue.process();
-        queue.process();
-        queue.process();
+
+        SubmissionQueue queue2 = SubmissionQueue.getInstance();
+
+        queue2.add(submission5);
+        queue2.add(submission6);
+
+        queue2.process();
+        queue2.process();
+        queue2.process();
+        queue2.process();
 
     }
 }
