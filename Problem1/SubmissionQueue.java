@@ -20,7 +20,11 @@ public class SubmissionQueue
 
     public static SubmissionQueue getInstance(){
         if (queue == null){
+            System.out.println("Creating new instance of SubmissionQueue");
             queue = new SubmissionQueue();
+        }
+        else{
+            System.out.println("Using already instantiated Queue");
         }
         return queue;
     }

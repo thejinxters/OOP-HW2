@@ -20,13 +20,15 @@ public class Problem1Driver {
         queue.process();
         queue.process();
 
-        queue.add(submission5);
-        queue.add(submission6);
+        SubmissionQueue queue2 = SubmissionQueue.getInstance();
 
-        queue.process();
-        queue.process();
-        queue.process();
-        queue.process();
+        queue2.add(submission5);
+        queue2.add(submission6);
+
+        queue2.process();
+        queue2.process();
+        queue2.process();
+        queue2.process();
 
     }
 }
