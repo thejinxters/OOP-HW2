@@ -22,7 +22,7 @@ class LogXML implements Logging
 	}
 	public void log(String msg)
 	{	
-		System.out.println("Logging text to file: log.xml" );
+		System.out.println("Logging xml to file: log.xml" );
 		System.out.println("<xml><msg>"+msg+"</msg></xml>");
 	}
 }
@@ -41,9 +41,9 @@ class LogHTML implements Logging
 
 class LoggingFactory
 {
-
 	public static Logging createLogging(String type){
-		if (type.equalsIgnoreCase("text"))
+        System.out.println("Factory creating 'Logging' of type = [" + type + "]");
+        if (type.equalsIgnoreCase("text"))
 			return new LogText();
 		else if (type.equalsIgnoreCase("xml"))
 			return new LogXML();
